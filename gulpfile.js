@@ -4,6 +4,8 @@ var pug = require('gulp-pug');
 
 var autoprefixer = require('gulp-autoprefixer');
 
+var notify = require('gulp-notify');
+
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var historyApiFallback = require('connect-history-api-fallback')
@@ -21,6 +23,10 @@ gulp.task('styles',function() {
   // Compiles CSS
   gulp.src(['./css/style.styl'])
     .pipe(stylus())
+    .on('error', function(err) {
+        notify().write(err);
+        this.emit('end');
+    })
     .pipe(autoprefixer())
     .pipe(gulp.dest('./dist/css'))
     .pipe(reload({stream:true}));
