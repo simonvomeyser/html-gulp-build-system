@@ -6,11 +6,13 @@ var autoprefixer = require('gulp-autoprefixer');
 
 var notify = require('gulp-notify');
 
+var concat = require('gulp-concat');
+ 
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var historyApiFallback = require('connect-history-api-fallback')
 
-/*
+  /*
   Styles Task
 */
 
@@ -22,7 +24,8 @@ gulp.task('styles',function() {
 
   // Compiles CSS
   gulp.src(['./css/style.styl'])
-    .pipe(stylus())
+    //Add your libs css in the stylus file
+    .pipe(stylus({'include css': true}))
     .on('error', function(err) {
         notify().write(err);
         this.emit('end');
@@ -33,6 +36,18 @@ gulp.task('styles',function() {
     
     // .pipe(autoprefixer())
     // .pipe(reload({stream:true}))
+});
+
+gulp.task('scripts', function() {
+  return gulp.src([
+    //Add your libs here
+    './node_modules/jquery/dist/jquery.min.js', 
+    './node_modules/bootstrap/dist/js/bootstrap.min.js', 
+    './js/app.js', 
+  ])
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest('./dist/js/'))
+    .pipe(reload({stream:true}));
 });
 
 gulp.task('html', function () {
@@ -60,8 +75,9 @@ gulp.task('browser-sync', function() {
 
 
 // run 'scripts' task first, then watch for future changes
-gulp.task('default', ['styles', 'html', 'browser-sync'], function() {
+gulp.task('default', ['styles', 'html', 'scripts', 'browser-sync'], function() {
   gulp.watch('css/**/*', ['styles']); // gulp watch for stylus changes
   gulp.watch('html/**/*', ['html']);
+  gulp.watch('js/**/*', ['scripts']);
  // gulp watch for html changes
 });
