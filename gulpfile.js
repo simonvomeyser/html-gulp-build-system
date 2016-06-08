@@ -55,6 +55,10 @@ gulp.task('html', function () {
     .pipe(pug({
           pretty: true
           }))
+    .on('error', function(err) {
+        notify().write(err);
+        this.emit('end');
+    })
     .pipe(gulp.dest('./dist/'))
     .pipe(reload({stream:true}));
 })
