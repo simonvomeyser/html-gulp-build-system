@@ -10,7 +10,7 @@ var concat = require('gulp-concat');
  
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
-var historyApiFallback = require('connect-history-api-fallback')
+var historyApiFallback = require('connect-history-api-fallback');
 
   /*
   Styles Task
@@ -23,7 +23,7 @@ gulp.task('styles',function() {
   //   .pipe(gulp.dest('dist/css/fonts'))
 
   // Compiles CSS
-  gulp.src(['./css/style.styl'])
+  gulp.src(['./css/app.styl'])
     //Add your libs css in the stylus file
     .pipe(stylus({'include css': true}))
     .on('error', function(err) {
@@ -31,11 +31,22 @@ gulp.task('styles',function() {
         this.emit('end');
     })
     .pipe(autoprefixer())
-    .pipe(gulp.dest('./dist/css'))
-    .pipe(reload({stream:true}));
+    .pipe(gulp.dest('./tmp'))
+    .on('end', function () {
+      
+      //Combine app.css with libs
+      gulp.src([
+        //Add your libs here
+        './node_modules/bootstrap/dist/css/bootstrap.min.css', 
+        //Already compiled stylus
+        './tmp/app.css', 
+      ])
+      .pipe(concat('app.css'))
+      .pipe(gulp.dest('./dist/css'))
+      .pipe(reload({stream:true}));
+
+    })
     
-    // .pipe(autoprefixer())
-    // .pipe(reload({stream:true}))
 });
 
 gulp.task('scripts', function() {
@@ -43,6 +54,7 @@ gulp.task('scripts', function() {
     //Add your libs here
     './node_modules/jquery/dist/jquery.min.js', 
     './node_modules/bootstrap/dist/js/bootstrap.min.js', 
+    //Custom Js
     './js/app.js', 
   ])
     .pipe(concat('app.js'))
@@ -53,16 +65,14 @@ gulp.task('scripts', function() {
 gulp.task('html', function () {
   gulp.src(['./html/**.*'])
     .pipe(pug({
-          pretty: true
-          }))
-    .on('error', function(err) {
-        notify().write(err);
-        this.emit('end');
-    })
+        pretty: true
+        }))
+    .on('error', notify.onError(function (error) {
+      return error;
+    }))
     .pipe(gulp.dest('./dist/'))
     .pipe(reload({stream:true}));
 })
-
 
 /*
   Browser Sync
