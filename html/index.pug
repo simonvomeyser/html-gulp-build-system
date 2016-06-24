@@ -1,14 +1,11 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="utf-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1")
-    title pageTitle
-    link(href='./css/style.css', rel='stylesheet')
-  body
-    h1 html gulp build system
-    .container
-      p Simple and effective way to create html and css markup
-      img(src='http://i0.kym-cdn.com/photos/images/original/000/581/296/c09.jpg').doge
-      p much effective, such reload!!!!
-    script(src='./js/app.js') 
+extends ./extends/layout.pug
+
+include ./mixins/_all.pug
+
+block body
+	include ./includes/_header.pug
+	h1 html gulp build system
+	.container
+		p Simple and effective way to create html and css markup
+		img(src='http://i0.kym-cdn.com/photos/images/original/000/581/296/c09.jpg').doge
+		p much effective, such reload!!!!
