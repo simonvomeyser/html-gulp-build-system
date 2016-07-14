@@ -5,9 +5,12 @@ var pug = require('gulp-pug');
 var autoprefixer = require('gulp-autoprefixer');
 
 var notify = require('gulp-notify');
-
+var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
- 
+var uglify = require('gulp-uglify');
+var uglifycss = require('gulp-uglifycss');
+
+
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var historyApiFallback = require('connect-history-api-fallback');
@@ -24,29 +27,31 @@ gulp.task('styles',function() {
 
   // Compiles CSS
   gulp.src(['./css/app.styl'])
+    .pipe(sourcemaps.init())
     //Add your libs css in the stylus file
-    .pipe(stylus({'include css': true}))
+    .pipe(stylus({
+      'include css': true,
+      'compress': true
+    }))
     .on('error', function(err) {
         notify().write(err);
         this.emit('end');
     })
-    .pipe(autoprefixer())
-    .pipe(gulp.dest('./tmp'))
-    .on('end', function () {
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('dist/css'))
       
-      //Combine app.css with libs
-      gulp.src([
-        //Add your libs here
-        './node_modules/bootstrap/dist/css/bootstrap.min.css', 
-        //Already compiled stylus
-        './tmp/app.css', 
-      ])
-      .pipe(concat('app.css'))
-      .pipe(gulp.dest('./dist/css'))
-      .pipe(reload({stream:true}));
+    //create libs.css
+    gulp.src([
+      //Add your libs here
+      './node_modules/bootstrap/dist/css/bootstrap.min.css'
+    ])
+    .pipe(sourcemaps.init())
+    .pipe(concat('libs.css'))
+    .pipe(sourcemaps.write('.'))
+    .pipe(uglifycss())
+    .pipe(gulp.dest('dist/css'))
+    .pipe(reload({stream:true}));
 
-    })
-    
 });
 
 gulp.task('scripts', function() {
