@@ -1,9 +1,11 @@
+// Dependencys
 var gulp = require('gulp');
 var stylus = require('gulp-stylus');
 var pug = require('gulp-pug');
 
 var autoprefixer = require('gulp-autoprefixer');
 
+var util = require('gulp-util');
 var notify = require('gulp-notify');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
@@ -15,23 +17,23 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var historyApiFallback = require('connect-history-api-fallback');
 
-  /*
-  Styles Task
-*/
 
+// Modes
+var in_production_mode = !!util.env.production
+
+/**
+ * Compiles stylus and creates libs
+ */
 gulp.task('styles',function() {
 
-  // move over fonts
-  // gulp.src('css/fonts/**.*')
-  //   .pipe(gulp.dest('dist/css/fonts'))
+  // @todo move over fonts
 
   // Compiles CSS
   gulp.src(['./css/app.styl'])
     .pipe(sourcemaps.init())
-    //Add your libs css in the stylus file
     .pipe(stylus({
       'include css': true,
-      'compress': true
+      'compress': in_production_mode
     }))
     .on('error', function(err) {
         notify().write(err);
@@ -47,8 +49,9 @@ gulp.task('styles',function() {
     ])
     .pipe(sourcemaps.init())
     .pipe(concat('libs.css'))
+    //Uglify in production
+    .pipe(in_production_mode ? uglifycss() : util.noop())
     .pipe(sourcemaps.write('.'))
-    .pipe(uglifycss())
     .pipe(gulp.dest('dist/css'))
     .pipe(reload({stream:true}));
 
@@ -70,7 +73,7 @@ gulp.task('scripts', function() {
 gulp.task('html', function () {
   gulp.src(['./html/**.*'])
     .pipe(pug({
-        pretty: true
+        pretty: !in_production_mode
         }))
     .on('error', notify.onError(function (error) {
       return error;
@@ -93,6 +96,9 @@ gulp.task('browser-sync', function() {
 });
 
 
+gulp.task('test', function() {
+  console.log (util.env.production); //Debug
+});
 // run 'scripts' task first, then watch for future changes
 gulp.task('default', ['styles', 'html', 'scripts', 'browser-sync'], function() {
   gulp.watch('css/**/*', ['styles']); // gulp watch for stylus changes
@@ -100,3 +106,5 @@ gulp.task('default', ['styles', 'html', 'scripts', 'browser-sync'], function() {
   gulp.watch('js/**/*', ['scripts']);
  // gulp watch for html changes
 });
+
+

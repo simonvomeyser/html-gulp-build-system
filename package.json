@@ -1,6 +1,6 @@
 {
   "name": "html-gulp-build-system",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Simple and effective way to create html and css markup",
   "author": "Simon vom Eyser",
   "devDependencies": {
@@ -11,10 +11,10 @@
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-notify": "^2.2.0",
+    "gulp-pug": "^3.0.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-stylus": "^2.3.1",
-    "gulp-pug": "^3.0.2",
-    "gulp-stylus": "^2.3.1",
+    "gulp-util": "^3.0.7",
     "jquery": "^2.2.3"
   }
 }
