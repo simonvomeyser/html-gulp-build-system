@@ -22,7 +22,14 @@ and after that just
 ```
 gulp
 ```
- 
+
+## Options
+
+To minifiy your files for production you simply can use the ```--production``` option via
+
+```
+gulp --production
+``` 
 
 
 
