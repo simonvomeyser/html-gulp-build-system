@@ -65,7 +65,11 @@ gulp.task('scripts', function() {
     //Custom Js
     './js/app.js', 
   ])
+    .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
+    //Uglify in production
+    .pipe(in_production_mode ? uglify() : util.noop())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist/js/'))
     .pipe(reload({stream:true}));
 });
