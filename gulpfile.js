@@ -11,7 +11,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var uglifycss = require('gulp-uglifycss');
-
+var imagemin = require('gulp-imagemin');
 
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
@@ -99,15 +99,21 @@ gulp.task('browser-sync', function() {
     });
 });
 
-
-gulp.task('test', function() {
-  console.log (util.env.production); //Debug
+/**
+ * Minify and move over images in img/ folder
+ */
+gulp.task('images', function() {
+    gulp.src('./img/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./dist/img'));
 });
+
 // run 'scripts' task first, then watch for future changes
-gulp.task('default', ['styles', 'html', 'scripts', 'browser-sync'], function() {
+gulp.task('default', ['styles', 'html', 'scripts', 'images', 'browser-sync'], function() {
   gulp.watch('css/**/*', ['styles']); // gulp watch for stylus changes
   gulp.watch('html/**/*', ['html']);
   gulp.watch('js/**/*', ['scripts']);
+  gulp.watch('img/**/*', ['images']);
  // gulp watch for html changes
 });
 
