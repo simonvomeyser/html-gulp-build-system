@@ -108,13 +108,11 @@ gulp.task('images', function() {
         .pipe(gulp.dest('./dist/img'));
 });
 
-// run 'scripts' task first, then watch for future changes
 gulp.task('default', ['styles', 'html', 'scripts', 'images', 'browser-sync'], function() {
-  gulp.watch('css/**/*', ['styles']); // gulp watch for stylus changes
+  gulp.watch('css/**/*', ['styles']);
   gulp.watch('html/**/*', ['html']);
   gulp.watch('js/**/*', ['scripts']);
   gulp.watch('img/**/*', ['images']);
- // gulp watch for html changes
 });
 
 
