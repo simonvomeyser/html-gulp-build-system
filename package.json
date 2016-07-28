@@ -19,5 +19,27 @@
     "gulp-uglifycss": "^1.0.6",
     "gulp-util": "^3.0.7",
     "jquery": "^2.2.3"
-  }
+  },
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp-util": "^3.0.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonvomeyser/html-gulp-build-system.git"
+  },
+  "keywords": [
+    "html",
+    "gulp",
+    "pug",
+    "jade"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simonvomeyser/html-gulp-build-system/issues"
+  },
+  "homepage": "https://github.com/simonvomeyser/html-gulp-build-system#readme"
 }
