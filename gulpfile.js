@@ -23,6 +23,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var uglifycss = require('gulp-uglifycss');
 var imagemin = require('gulp-imagemin');
+var uncss = require('gulp-uncss');
 
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
@@ -50,6 +51,9 @@ gulp.task('styles',function() {
         notify().write(err);
         this.emit('end');
     })
+    .pipe(uncss({
+        html: ['dist/**/*.html']
+    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist/css'))
       
@@ -57,6 +61,9 @@ gulp.task('styles',function() {
     gulp.src(csslibs)
     .pipe(sourcemaps.init())
     .pipe(concat('libs.css'))
+    .pipe(uncss({
+        html: ['dist/**/*.html']
+    }))
     //Uglify in production
     .pipe(in_production_mode ? uglifycss() : util.noop())
     .pipe(sourcemaps.write('.'))
