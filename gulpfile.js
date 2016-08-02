@@ -1,3 +1,14 @@
+//Add the CSS part of your Libs
+var csslibs = [
+  './node_modules/bootstrap/dist/css/bootstrap.min.css'
+]
+
+//Add the JS part of your libs
+var jslibs = [
+  './node_modules/jquery/dist/jquery.min.js', 
+  './node_modules/bootstrap/dist/js/bootstrap.min.js', 
+]
+
 // Dependencys
 var gulp = require('gulp');
 var stylus = require('gulp-stylus');
@@ -43,10 +54,7 @@ gulp.task('styles',function() {
     .pipe(gulp.dest('dist/css'))
       
     //create libs.css
-    gulp.src([
-      //Add your libs here
-      './node_modules/bootstrap/dist/css/bootstrap.min.css'
-    ])
+    gulp.src(csslibs)
     .pipe(sourcemaps.init())
     .pipe(concat('libs.css'))
     //Uglify in production
@@ -58,13 +66,8 @@ gulp.task('styles',function() {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src([
-    //Add your libs here
-    './node_modules/jquery/dist/jquery.min.js', 
-    './node_modules/bootstrap/dist/js/bootstrap.min.js', 
-    //Custom Js
-    './js/app.js', 
-  ])
+  jslibs.push('./js/app.js')
+  return gulp.src(jslibs)
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
     //Uglify in production
