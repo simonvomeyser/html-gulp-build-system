@@ -1,8 +1,21 @@
-body 
-	padding: 40px
-	text-align: center;
-	background: pink
-	font 18px Arial, sans-serif
+// ==========================================================================
+// App File - Structure based on SMACCS (smaccs.com)
+// ==========================================================================
 
-img.doge
-	max-width: 400px
+// ===========================================
+// basic elements (body, h1), mixins, vars, vendors
+// =========================================== 
+@import 'base/_index';
+
+// ===========================================
+// layout elements like header, footer, sidebars
+// ===========================================
+@import 'layout/_index';
+
+// ===========================================
+// Independet parts like buttons, forms. Main part of the app
+// ===========================================
+@import 'modules/_index';
+
+// Todo: State
+// Todo: Templates?
