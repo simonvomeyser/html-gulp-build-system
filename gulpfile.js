@@ -41,7 +41,7 @@ gulp.task('styles',function() {
   // @todo move over fonts
 
   // Compiles CSS
-  gulp.src(['./css/app.styl'])
+  gulp.src(['./stylus/app.styl'])
     .pipe(sourcemaps.init())
     .pipe(stylus({
       'include css': true,
@@ -119,7 +119,7 @@ gulp.task('images', function() {
 });
 
 gulp.task('default', ['styles', 'html', 'scripts', 'images', 'browser-sync'], function() {
-  gulp.watch('css/**/*', ['styles']);
+  gulp.watch('stylus/**/*', ['styles']);
   gulp.watch('html/**/*', ['html']);
   gulp.watch('js/**/*', ['scripts']);
   gulp.watch('img/**/*', ['images']);
