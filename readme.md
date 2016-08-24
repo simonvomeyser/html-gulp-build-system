@@ -29,8 +29,13 @@ To minifiy your files for production you simply can use the ```--production``` o
 
 ```
 gulp --production
-``` 
+```
 
+## Roadmap
+
+* Add function to clean up sample data (maybe different branch)
+* pull in html5bolierplate
+* set up better looking (though less funny and such less dodge) sample data with examples of usage
 
 
 
