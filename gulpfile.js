@@ -51,9 +51,10 @@ gulp.task('styles',function() {
         notify().write(err);
         this.emit('end');
     })
-    .pipe(uncss({
+    //Only remove unused css in production
+    .pipe(in_production_mode ? uncss({
         html: ['dist/**/*.html']
-    }))
+    }) : util.noop())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist/css'))
       
@@ -61,11 +62,11 @@ gulp.task('styles',function() {
     gulp.src(csslibs)
     .pipe(sourcemaps.init())
     .pipe(concat('libs.css'))
+    //Uglify in production
+    .pipe(in_production_mode ? uglifycss() : util.noop())
     .pipe(uncss({
         html: ['dist/**/*.html']
     }))
-    //Uglify in production
-    .pipe(in_production_mode ? uglifycss() : util.noop())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist/css'))
     .pipe(reload({stream:true}));
