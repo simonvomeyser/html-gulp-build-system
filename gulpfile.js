@@ -14,7 +14,7 @@ var gulp = require('gulp');
 var stylus = require('gulp-stylus');
 var pug = require('gulp-pug');
 
-var autoprefixer = require('gulp-autoprefixer');
+var autoprefixer = require('autoprefixer-stylus');
 
 var util = require('gulp-util');
 var notify = require('gulp-notify');
@@ -45,7 +45,8 @@ gulp.task('styles',function() {
     .pipe(sourcemaps.init())
     .pipe(stylus({
       'include css': true,
-      'compress': in_production_mode
+      'compress': in_production_mode,
+      'use': [autoprefixer()]
     }))
     .on('error', function(err) {
         notify().write(err);
